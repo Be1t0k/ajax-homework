@@ -1,6 +1,6 @@
 const resultsContainer = document.querySelector(".js-results");
 const searchInput = document.querySelector(".js-input");
- 
+
 
 const Listner = (e) =>{
     e.preventDefault();
@@ -22,16 +22,20 @@ const Listner = (e) =>{
         resultsContainer.innerHTML = `<div class="response-container"> ${err.message} </div>`
       }
       else{
-        throw err;}
+        throw new ReferenceError('is not number')}
     }
 };
 
-try {
-  searchInput.addEventListener('click', Listner);
+const wrapperListener = (e) => {
+  try {
+    Listner(e)
   }
-catch(e) {
-  if (e.name=="ReferenceError"){
-    console.log(e.message);
-    resultsContainer.innerHTML = `<div class="response-container"> ${e.message} </div>`
+  catch (err){
+    if (err.name=="ReferenceError"){
+      resultsContainer.innerHTML = `<div class="response-container"> ${err.message} </div>`
+    }
   }
 }
+
+
+searchInput.addEventListener('click', wrapperListener);
